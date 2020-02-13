@@ -1,0 +1,69 @@
+<html>
+    <head>
+        <title>Leaflet Map of Bike Share stations (SEVici) in Seville, Spain</title>
+        <link rel="stylesheet" href="https://unpkg.com/leaflet@1.4.0/dist/leaflet.css"
+            integrity="sha512-
+        puBpdR0798OZvTTbP4A8Ix/l+A4dHDD0DGqYW6RQ+9jxkRFclaxxQb/SJAWZfWAkuyeQUytO7+7N4QKrD
+        h+drA=="
+            crossorigin=""/>
+        <script src="https://unpkg.com/leaflet@1.4.0/dist/leaflet.js"
+            integrity="sha512-
+        QVftwZFqvtRNi0ZyCtsznlKSWOStnDORoefr1enyq5mVL4tmKB3S/EnC3rRJcxCPavG10IcrVGSmPh6Qw
+        5lwrg=="
+            crossorigin=""></script>
+        <script src = "data/seviccigeojson.geojson"></script>
+           
+        <link rel="stylesheet" href="https://unpkg.com/leaflet@1.3.1/dist/leaflet.css" integrity="sha512-Rksm5RenBEKSKFjgI3a41vrjkw4EVPlJ3+OiI65vTjIdo9brlAacEuKOiQ5OFh7cOI1bkDwLqdLw3Zg0cRJAAQ==" crossorigin="" />
+            <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.3.0/dist/MarkerCluster.css" />
+            <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.3.0/dist/MarkerCluster.Default.css" />
+          
+            <script src="https://unpkg.com/leaflet@1.3.1/dist/leaflet.js" integrity="sha512-/Nsx9X4HebavoBvEBuyp3I7od5tA0UzAxs+j83KgC8PU0kgB4XiK4Lfe4y4cgBtaRJQEIFCW+oC506aPT2L1zw==" crossorigin=""></script>
+            <script src="https://unpkg.com/leaflet.markercluster@1.3.0/dist/leaflet.markercluster.js"></script>
+    </head>
+    <body>
+        Leaflet Map of Bike Share Stations (SEVici) in Seville, Spain
+        <div id="mapid"></div>
+        <style>
+            #mapid{ width: 900px; height: 500px; }
+        </style>
+        <script>
+            var map = L.map('mapid').setView([37.37, -6.00], 12);
+            L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Topo_Map/MapServer/tile/{z}/{y}/{x}', {
+	attribution: 'Tiles &copy; Esri &mdash; Esri, DeLorme, NAVTEQ, TomTom, Intermap, iPC, USGS, FAO, NPS, NRCAN, GeoBase, Kadaster NL, Ordnance Survey, Esri Japan, METI, Esri China (Hong Kong), and the GIS User Community'
+}).addTo(map);
+            //L.marker([35.911271, -79.049807]).addTo(map)
+             //.bindPopup('Carolina Hall') // YOU CAN CHANGE THE MESSAGE
+             //.openPopup();
+            // end of script
+            </script>
+       <!-- <script>
+            L.geoJSON(sev).addTo(map)</script>
+        -->
+
+        <script> 
+        function onEachFeature(feature, layer) {
+    if (feature.properties && feature.properties.Direccion) {
+        layer.bindPopup(feature.properties.Direccion);
+    }
+}
+
+L.geoJSON(sev, {
+   onEachFeature: onEachFeature
+}); 
+
+var bikePopup = `SEVici dock site <br/><img
+                src='https://www.thespainscoop.com/wp-content/uploads/2012/06/A-sevici-station-for-the-bike-share-program.-There-are-250-throughout-Seville-2.jpg' 
+                width='100px'/>`;
+    
+      
+           var markers = L.markerClusterGroup();
+           var marker = L.geoJSON(sev, {
+            onEachFeature: onEachFeature
+            });
+            markers.addLayer(marker).bindPopup(bikePopup);
+            map.addLayer(markers);
+
+        </script> 
+         
+    </body>
+</html>
